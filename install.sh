@@ -176,7 +176,7 @@ if [ "$iw4admin" = 'y' ] || [ "$iw4admin" = '' ] || [ "$iw4admin" = 'Y' ] ; then
   miw4admin2='Downloading IW4MAdmin dependencies'
   {
     sudo apt-get update && \
-    sudo apt-get install -y aspnetcore-runtime-6.0
+    sudo apt-get install -y aspnetcore-runtime-8.0
   }
 fi
 
