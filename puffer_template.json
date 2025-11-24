@@ -1,0 +1,81 @@
+{
+  "name": "plutonium-t6",
+  "display": "Plutonium T6 Zombies",
+  "type": "shell",
+  "install": [
+    {
+      "commands": [
+        "git clone https://github.com/YOURUSER/YOURREPO.git .",
+        "bash install_puffer.sh",
+        "mkdir -p T6Gamefiles"
+      ],
+      "type": "command"
+    }
+  ],
+  "run": {
+    "stop": "quit",
+    "command": "cd Plutonium && ./T6_zm_server_puffer.sh",
+    "workingDirectory": "",
+    "pre": [],
+    "post": [],
+    "environmentVars": {
+      "GAME_PATH": "${rootdir}/T6Gamefiles",
+      "SERVER_CFG": "${cfg}",
+      "SERVER_KEY": "${serverkey}",
+      "SERVER_MOD": "${mod}",
+      "SERVER_NAME": "${servername}",
+      "SERVER_PORT": "${port}"
+    }
+  },
+  "data": {
+    "cfg": {
+      "type": "string",
+      "desc": "Config file name in T6 game files (main/)",
+      "display": "Config file",
+      "required": true,
+      "value": "dedicated_zm.cfg"
+    },
+    "mod": {
+      "type": "string",
+      "desc": "Mod folder path, example mods/my_mod",
+      "display": "Mod folder",
+      "value": ""
+    },
+    "port": {
+      "type": "integer",
+      "desc": "UDP port for the server",
+      "display": "Port",
+      "required": true,
+      "value": 4977
+    },
+    "serverkey": {
+      "type": "string",
+      "desc": "Server key from https://platform.plutonium.pw/serverkeys",
+      "display": "Plutonium Server Key",
+      "required": true,
+      "value": ""
+    },
+    "servername": {
+      "type": "string",
+      "desc": "Server name shown in logs",
+      "display": "Server Name",
+      "required": true,
+      "value": "T6 Zombies"
+    }
+  },
+  "environment": {
+    "type": "standard"
+  },
+  "supportedEnvironments": [
+    {
+      "type": "standard"
+    }
+  ],
+  "requirements": {
+    "os": "linux",
+    "arch": "amd64",
+    "binaries": [
+      "wine"
+    ]
+  }
+}
