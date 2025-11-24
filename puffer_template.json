@@ -5,9 +5,8 @@
   "install": [
     {
       "commands": [
-        "git clone https://github.com/YOURUSER/YOURREPO.git .",
-        "bash install_puffer.sh",
-        "mkdir -p T6Gamefiles"
+        "git clone https://github.com/ajeastt/PluotoniumServerLinux.git .",
+        "bash install_puffer.sh"
       ],
       "type": "command"
     }
@@ -30,7 +29,7 @@
   "data": {
     "cfg": {
       "type": "string",
-      "desc": "Config file name in T6 game files (main/)",
+      "desc": "Config file inside T6 game files (main/)",
       "display": "Config file",
       "required": true,
       "value": "dedicated_zm.cfg"
