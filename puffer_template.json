@@ -13,8 +13,8 @@
   ],
   "run": {
     "stop": "quit",
-    "command": "cd Plutonium && ./T6_zm_server_puffer.sh",
-    "workingDirectory": "",
+    "command": "./T6_zm_server_puffer.sh",
+    "workingDirectory": "Plutonium",
     "pre": [],
     "post": [],
     "environmentVars": {
