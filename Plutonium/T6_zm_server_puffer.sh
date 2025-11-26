@@ -1,5 +1,10 @@
 #!/bin/bash
 
+export WINEDEBUG=-all
+export WINEDLLOVERRIDES="mscoree,mshtml="
+export DISPLAY=:
+export XDG_RUNTIME_DIR=/tmp
+
 INSTALLDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Pull from PufferPanel environment variables
