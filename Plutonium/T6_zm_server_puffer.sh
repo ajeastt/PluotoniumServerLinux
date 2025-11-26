@@ -9,7 +9,7 @@ INSTALLDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Pull from PufferPanel environment variables
 NAME="${SERVER_NAME:-T6 Zombies 1}"
-PAT="${GAME_PATH:-$INSTALLDIR/../T6Gamefiles}"
+PAT="$INSTALLDIR/../T6Gamefiles"
 KEY="${SERVER_KEY:-}"
 CFG="${SERVER_CFG:-dedicated_zm.cfg}"
 PORT="${SERVER_PORT:-4977}"
