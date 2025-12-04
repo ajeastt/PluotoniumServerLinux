@@ -8,7 +8,7 @@
   "description": "Runs a Plutonium T6 (BO2 Zombies) server on Linux using Wine. Uses ajeastt/PluotoniumServerLinux with install_panel.sh and T6_zm_server.sh.",
   "features": null,
   "docker_images": {
-    "ghcr.io/parkervcp/yolks:wine_latest": "Wine (latest)"
+    "ghcr.io/parkervcp/yolks:wine_latest": "ghcr.io/parkervcp/yolks:wine_latest"
   },
   "file_denylist": [],
   "startup": "cd /home/container/PluotoniumServerLinux/Plutonium && ./T6_zm_server.sh",
