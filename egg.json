@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "version": "PTDL_v2",
+    "update_url": null
+  },
+  "name": "Plutonium T6 Zombies – Linux (Wine)",
+  "author": "ajeastt",
+  "description": "Runs a Plutonium T6 (BO2 Zombies) server on Linux using Wine. Uses ajeastt/PluotoniumServerLinux with install_panel.sh and T6_zm_server.sh.",
+  "features": null,
+  "docker_images": {
+    "ghcr.io/parkervcp/yolks:wine_latest": "Wine (latest)"
+  },
+  "file_denylist": [],
+  "startup": "cd /home/container/PluotoniumServerLinux/Plutonium && ./T6_zm_server.sh",
+  "config": {
+    "files": "{}",
+    "startup": "{ \"done\": \"server started\" }",
+    "logs": "{}",
+    "stop": "quit"
+  },
+  "scripts": {
+    "installation": {
+      "script": "#!/bin/bash\n# Plutonium T6 Zombies installer for panel (Pterodactyl / Calagopus)\nset -euo pipefail\n\napt update -y\napt install -y curl wget git ca-certificates\n\ncd /mnt/server\n\necho \"[Installer] Cloning PluotoniumServerLinux...\"\nif [ ! -d \"PluotoniumServerLinux\" ]; then\n  git clone https://github.com/ajeastt/PluotoniumServerLinux.git\nfi\n\ncd PluotoniumServerLinux\nchmod +x install_panel.sh || true\n\necho \"[Installer] Running install_panel.sh...\"\n./install_panel.sh\n\necho \"[Installer] Done. Upload your BO2 files into the T6Gamefiles directory if needed.\"",
+      "container": "ghcr.io/parkervcp/installers:debian",
+      "entrypoint": "bash"
+    }
+  },
+  "variables": [
+    {
+      "name": "Server Port",
+      "description": "UDP port the Plutonium T6 Zombies server will listen on.",
+      "env_variable": "SERVER_PORT",
+      "default_value": "4977",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|numeric|min:1|max:65535",
+      "field_type": "text"
+    },
+    {
+      "name": "Server Name",
+      "description": "Name shown in logs / console title for this Zombies server.",
+      "env_variable": "SERVER_NAME",
+      "default_value": "T6 Zombies 1",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:64",
+      "field_type": "text"
+    },
+    {
+      "name": "Plutonium Server Key",
+      "description": "Your Plutonium server key (from platform.plutonium.pw/serverkeys).",
+      "env_variable": "PLUTONIUM_KEY",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:128",
+      "field_type": "text"
+    },
+    {
+      "name": "Game Files Path",
+      "description": "Path to BO2/T6 game files. Leave default unless you know what you are doing.",
+      "env_variable": "T6_GAME_PATH",
+      "default_value": "/home/container/PluotoniumServerLinux/T6Gamefiles",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:255",
+      "field_type": "text"
+    },
+    {
+      "name": "Server Config",
+      "description": "Dedicated config file executed on start (relative to game path).",
+      "env_variable": "SERVER_CONFIG",
+      "default_value": "dedicated_zm.cfg",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:128",
+      "field_type": "text"
+    },
+    {
+      "name": "Server Mod (fs_game)",
+      "description": "Optional fs_game/mod folder (blank for none).",
+      "env_variable": "SERVER_MOD",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string|max:128",
+      "field_type": "text"
+    },
+    {
+      "name": "Game Mode",
+      "description": "Game mode passed to plutonium-bootstrapper (default t6zm).",
+      "env_variable": "GAME_MODE",
+      "default_value": "t6zm",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|in:t6zm",
+      "field_type": "text"
+    }
+  ]
+}
