@@ -8,7 +8,7 @@
   "description": "Runs a Plutonium T6 (BO2 Zombies) server on Linux using Wine. Uses ajeastt/PluotoniumServerLinux with install_panel.sh and T6_zm_server.sh.",
   "features": null,
   "docker_images": {
-    "ghcr.io/parkervcp/yolks:wine_latest": "ghcr.io/parkervcp/yolks:wine_latest"
+    "ghcr.io/parkervcp/yolks:wine_latest": "Wine (latest)"
   },
   "file_denylist": [],
   "startup": "cd /home/container/PluotoniumServerLinux/Plutonium && ./T6_zm_server.sh",
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "installation": {
-      "script": "#!/bin/bash\n# Plutonium T6 Zombies installer for panel (Pterodactyl / Calagopus)\nset -euo pipefail\n\napt update -y\napt install -y curl wget git ca-certificates\n\ncd /mnt/server\n\necho \"[Installer] Cloning PluotoniumServerLinux...\"\nif [ ! -d \"PluotoniumServerLinux\" ]; then\n  git clone https://github.com/ajeastt/PluotoniumServerLinux.git\nfi\n\ncd PluotoniumServerLinux\nchmod +x install_panel.sh || true\n\necho \"[Installer] Running install_panel.sh...\"\n./install_panel.sh\n\necho \"[Installer] Done. Upload your BO2 files into the T6Gamefiles directory if needed.\"",
+      "script": "#!/bin/bash\n# Plutonium T6 Zombies installer for panel (Pterodactyl / Calagopus)\nset -euo pipefail\n\napt update -y\napt install -y curl wget git ca-certificates\n\ncd /mnt/server\n\necho \"[Installer] Cloning PluotoniumServerLinux...\"\nif [ ! -d \"PluotoniumServerLinux\" ]; then\n  git clone https://github.com/ajeastt/PluotoniumServerLinux.git\nfi\n\ncd PluotoniumServerLinux\nchmod +x install_panel.sh || true\n\necho \"[Installer] Running install_panel.sh...\"\nbash install_panel.sh\n\necho \"[Installer] Done. Upload your BO2 files into the T6Gamefiles directory if needed.\"",
       "container": "ghcr.io/parkervcp/installers:debian",
       "entrypoint": "bash"
     }

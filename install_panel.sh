@@ -43,4 +43,3 @@ chmod +x plutonium-updater || true
 [ -f T6_zm_server.sh ] && chmod +x T6_zm_server.sh
 
 echo "Panel installer finished. Upload your BO2 files into: ${GAMEFILES_DIR}"
-e
