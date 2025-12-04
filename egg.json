@@ -11,7 +11,7 @@
     "ghcr.io/parkervcp/yolks:wine_latest": "ghcr.io/parkervcp/yolks:wine_latest"
   },
   "file_denylist": [],
-  "startup": "cd /home/container/PluotoniumServerLinux/Plutonium && ./T6_zm_server.sh",
+  "startup": "cd /home/container/PluotoniumServerLinux/Plutonium && ./T6_zm_server_panel.sh",
   "config": {
     "files": "{}",
     "startup": "{ \"done\": \"server started\" }",
