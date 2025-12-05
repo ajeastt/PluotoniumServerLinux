@@ -57,15 +57,36 @@ echo "$NOW $NAME server started."
 # ----------------- MAIN LOOP -----------------
 
 while true; do
+    # Run Plutonium and clean up the output a bit for panel consoles
     wine "$INSTALLDIR/bin/plutonium-bootstrapper-win32.exe" \
         "$MODE" "$PAT" -dedicated \
         +set key "$KEY" \
         +set fs_game "$MOD" \
         +set net_port "$PORT" \
         +exec "$CFG" \
-        +map_rotate
+        +map_rotate 2>&1 \
+    | awk '
+        # Strip title / control lines that start with ]0;
+        /^\]0;Plutonium/ { next }
+
+        # Collapse multiple blank-ish lines into a single blank line
+        {
+            # Remove carriage returns and weird control chars
+            gsub(/\r/, "");
+            if ($0 ~ /^[[:space:]]*$/) {
+                if (!blank) {
+                    print "";
+                    blank = 1;
+                }
+            } else {
+                print;
+                blank = 0;
+            }
+        }
+      '
 
     printf -v NOW '%(%F_%H:%M:%S)T' -1
     echo "$NOW WARNING: $NAME server closed or dropped... server restarting."
     sleep 1
 done
+
