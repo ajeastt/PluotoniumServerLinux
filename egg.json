@@ -3,24 +3,24 @@
     "version": "PTDL_v2",
     "update_url": null
   },
-  "name": "Plutonium T6 Zombies – Linux (Wine)",
+  "name": "Plutonium T6 – Zombies & Multiplayer (Linux/Wine)",
   "author": "ajeastt",
-  "description": "Runs a Plutonium T6 (BO2 Zombies) server on Linux using Wine. Uses ajeastt/PluotoniumServerLinux with install_panel.sh and T6_zm_server_panel.sh.",
+  "description": "Runs a Plutonium T6 (BO2 Zombies or Multiplayer) server on Linux using Wine. Uses ajeastt/PluotoniumServerLinux with install_panel.sh and T6_zm_server_panel.sh / T6_mp_server_panel.sh based on GAME_MODE.",
   "features": null,
   "docker_images": {
     "ghcr.io/parkervcp/yolks:wine_latest": "ghcr.io/parkervcp/yolks:wine_latest"
   },
   "file_denylist": [],
-  "startup": "cd /home/container/PluotoniumServerLinux/Plutonium && bash T6_zm_server_panel.sh",
+  "startup": "cd /home/container/PluotoniumServerLinux/Plutonium && if [ \"${GAME_MODE}\" = \"t6mp\" ]; then bash T6_mp_server_panel.sh; else bash T6_zm_server_panel.sh; fi",
   "config": {
     "files": "{}",
-    "startup": "{ \"done\": \"server started\" }",
+    "startup": { "done": "server started" },
     "logs": "{}",
     "stop": "quit"
   },
   "scripts": {
     "installation": {
-      "script": "#!/bin/bash\n# Plutonium T6 Zombies installer for panel (Pterodactyl / Calagopus)\nset -euo pipefail\n\napt update -y\napt install -y curl wget git ca-certificates\n\ncd /mnt/server\n\necho \"[Installer] Cloning PluotoniumServerLinux...\"\nif [ ! -d \"PluotoniumServerLinux\" ]; then\n  git clone https://github.com/ajeastt/PluotoniumServerLinux.git\nfi\n\ncd PluotoniumServerLinux\nchmod +x install_panel.sh || true\n\necho \"[Installer] Running install_panel.sh...\"\nbash install_panel.sh\n\necho \"[Installer] Done. Upload your BO2 files into the T6Gamefiles directory if needed.\"",
+      "script": "#!/bin/bash\n# Plutonium T6 (ZM + MP) installer for panel (Pterodactyl / Calagopus)\nset -euo pipefail\n\napt update -y\napt install -y curl wget git ca-certificates\n\ncd /mnt/server\n\necho \"[Installer] Cloning PluotoniumServerLinux...\"\nif [ ! -d \"PluotoniumServerLinux\" ]; then\n  git clone https://github.com/ajeastt/PluotoniumServerLinux.git\nfi\n\ncd PluotoniumServerLinux\nchmod +x install_panel.sh || true\nchmod +x Plutonium/T6_zm_server_panel.sh || true\nchmod +x Plutonium/T6_mp_server_panel.sh || true\n\necho \"[Installer] Running install_panel.sh...\"\nbash install_panel.sh\n\necho \"[Installer] Done. Upload your BO2 files into the T6Gamefiles directory if needed.\"",
       "container": "ghcr.io/parkervcp/installers:debian",
       "entrypoint": "bash"
     }
@@ -28,7 +28,7 @@
   "variables": [
     {
       "name": "Server Port",
-      "description": "UDP port the Plutonium T6 Zombies server will listen on.",
+      "description": "UDP port the Plutonium T6 server will listen on. (ZM default 4977, MP default 4976).",
       "env_variable": "SERVER_PORT",
       "default_value": "4977",
       "user_viewable": true,
@@ -38,7 +38,7 @@
     },
     {
       "name": "Server Name",
-      "description": "Name shown in logs / console title for this Zombies server.",
+      "description": "Name shown in logs / console title for this T6 server.",
       "env_variable": "SERVER_NAME",
       "default_value": "T6 Zombies 1",
       "user_viewable": true,
@@ -68,7 +68,7 @@
     },
     {
       "name": "Server Config",
-      "description": "Dedicated config file executed on start (relative to game path).",
+      "description": "Dedicated config file executed on start (relative to game path). Example: dedicated_zm.cfg or dedicated.cfg",
       "env_variable": "SERVER_CONFIG",
       "default_value": "dedicated_zm.cfg",
       "user_viewable": true,
@@ -88,12 +88,12 @@
     },
     {
       "name": "Game Mode",
-      "description": "Game mode passed to plutonium-bootstrapper (default t6zm).",
+      "description": "Game mode passed to plutonium-bootstrapper. Use t6zm for Zombies or t6mp for Multiplayer.",
       "env_variable": "GAME_MODE",
       "default_value": "t6zm",
       "user_viewable": true,
       "user_editable": true,
-      "rules": "required|string|in:t6zm",
+      "rules": "required|string|in:t6zm,t6mp",
       "field_type": "text"
     }
   ]
